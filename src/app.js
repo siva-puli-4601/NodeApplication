@@ -21,9 +21,11 @@ app.use(express.static("public"))  // used for serve things llike images, pdf
 // router imports
 
 import { healthcheckRouter } from './routes/healthCheckRouters.js';
+import { userRouter } from './routes/user.routers.js';
 import { ApiError } from './utils/ApiError.js';
 
 app.use('/api/v1/healthcheck',healthcheckRouter);
+app.use('/api/v1/user',userRouter);
 
 
 // For handling global errors

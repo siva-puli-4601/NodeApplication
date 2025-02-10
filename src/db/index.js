@@ -1,16 +1,17 @@
-import mongoo from "mongoose";
-import { DB_NAME } from "../constants.js";
+const mysql = require('mysql2');
+const dotenv = require('dotenv');
 
-// Connect to MongoDB
-const connectDB = async () => {
-  try {
+dotenv.config();
 
-    const connectionDb=await mongoo.connect(`${process.env.DB_URI}/${DB_NAME}`);
-    console.log("database connection",connectionDb.connection.host);
-  } catch (error) {
-    console.error(`Error connecting to MongoDB: ${error.message}`);
-    process.exit(1);
-  }
-};
+const pool = mysql.createPool({
+  host: process.env.DATABASE_HOST,
+  user: process.env.DATABASE_USER,
+  password: process.env.DATABASE_PASSWORD,
+  database: process.env.DB_NAME,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
+});
 
-export {connectDB}
+module.exports = pool.promise();
+
